@@ -1,2 +1,28 @@
 <h1>Student Panel</h1>
-<!-- Add content for the student panel -->
+
+<h2>Upload File</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+</form>
+
+<h2>Your Uploaded Files</h2>
+<ul>
+    {% for file in user_uploaded_files %}
+        <li>
+            <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
+        </li>
+    {% endfor %}
+</ul>
+
+<h2>All Uploaded Files</h2>
+<ul>
+    {% for file in all_uploaded_files %}
+        <li>
+            <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a> - Uploaded by: {{ file.user.username }}
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'logout' %}">Logout</a>

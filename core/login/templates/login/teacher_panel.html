@@ -1,2 +1,12 @@
 <h1>Teacher Panel</h1>
-<!-- Add content for the teacher panel -->
+
+<h2>All Uploaded Files</h2>
+<ul>
+    {% for file in all_uploaded_files %}
+        <li>
+            <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a> - Uploaded by: {{ file.user.username }}
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'logout' %}">Logout</a>
