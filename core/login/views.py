@@ -86,3 +86,8 @@ def student_panel(request):
         'all_uploaded_files': all_uploaded_files
     })
 
+@login_required
+def group_members(request, group_id):
+    group = Group.objects.get(id=group_id)
+    members = group.students.all()
+    return render(request, 'group_members.html', {'group': group, 'members': members})

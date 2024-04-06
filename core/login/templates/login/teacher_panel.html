@@ -64,6 +64,7 @@
                 <li>
                     {{ group.name }}
                     <a href="{% url 'add_student_to_group' group.id %}" class="btn btn-primary">Add Student</a>
+                    <a href="{% url 'group_members' group.id %}" class="btn btn-info">View Members</a>
                 </li>
                 {% endfor %}
             </ul>
