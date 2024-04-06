@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm
 from django.contrib.auth.decorators import login_required
 from .forms import UploadFileForm
-from .models import UploadedFile
+from .models import UploadedFile, Group, Profile
+from .forms import GroupForm, AddStudentForm
 
 def home_view(request):
     return redirect('login')
@@ -25,10 +26,44 @@ def login_view(request):
         form = LoginForm()
     return render(request, 'login/login.html', {'form': form})
 
+
+
+
+@login_required
 def teacher_panel(request):
     all_uploaded_files = UploadedFile.objects.all()
-    return render(request, 'login/teacher_panel.html', {'all_uploaded_files': all_uploaded_files})
+    groups = Group.objects.filter(teacher=request.user)
+    return render(request, 'login/teacher_panel.html', {'all_uploaded_files': all_uploaded_files, 'groups': groups})
 
+
+
+@login_required
+def create_group(request):
+    if request.method == 'POST':
+        form = GroupForm(request.POST)
+        if form.is_valid():
+            group = form.save(commit=False)
+            group.teacher = request.user
+            group.save()
+            return redirect('teacher_panel')
+    else:
+        form = GroupForm()
+    return render(request, 'create_group.html', {'form': form})
+
+@login_required
+def add_student_to_group(request, group_id):
+    print(f"Group ID: {group_id}")
+    group = get_object_or_404(Group, id=group_id)
+    print(f"Group : {group}")
+    if request.method == 'POST':
+        form = AddStudentForm(group, request.POST)
+        if form.is_valid():
+            student = form.cleaned_data['student']
+            group.students.add(student)
+            return redirect('teacher_panel')
+    else:
+        form = AddStudentForm(group)
+    return render(request, 'add_student_to_group.html', {'form': form, 'group': group})
 
 
 

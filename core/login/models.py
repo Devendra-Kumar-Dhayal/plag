@@ -7,6 +7,11 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+class Group(models.Model):
+    name = models.CharField(max_length=100)
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher_groups')
+    students = models.ManyToManyField(User, related_name='student_groups')
+
 
 class UploadedFile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
