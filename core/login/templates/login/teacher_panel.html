@@ -1,15 +1,69 @@
-<h1>Teacher Panel</h1>
-
-<h2>All Uploaded Files</h2>
-<ul>
-    {% for file in all_uploaded_files %}
-        <li>
-            <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a> - Uploaded by: {{ file.user.username }}
-        </li>
-    {% endfor %}
-</ul>
-
-<form action="{% url 'logout' %}" method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-info">Logout</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Panel</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f2f2f2;
+        }
+        .teacher-panel-container {
+            padding: 20px;
+        }
+        .teacher-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .teacher-panel-header h1 {
+            margin: 0;
+        }
+        .file-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .file-list li {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .file-list li a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .file-list li a:hover {
+            color: #0056b3;
+        }
+        .file-list li span {
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="teacher-panel-container">
+        <div class="teacher-panel-header">
+            <h1>Teacher Panel</h1>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-info">Logout</button>
+            </form>
+        </div>
+        <ul class="file-list">
+            {% for file in all_uploaded_files %}
+            <li>
+                <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
+                <span>Uploaded by: {{ file.user.username }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

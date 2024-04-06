@@ -1,31 +1,123 @@
-<h1>Student Panel</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Panel</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f2f2f2;
+        }
+        .student-panel-container {
+            display: flex;
+            height: 100vh;
+        }
+        .side-panel {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            width: 200px;
+        }
+        .side-panel h3 {
+            margin-bottom: 20px;
+        }
+        .side-panel button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            background-color: #555;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            text-align: left;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .side-panel button:hover {
+            background-color: #777;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .main-content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .main-content-header h1 {
+            margin: 0;
+        }
+        .file-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .file-list li {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="student-panel-container">
+        <div class="side-panel">
+            <h3>Actions</h3>
+            <button id="your-work-btn">Your Work</button>
+            <button id="global-work-btn">Global Work</button>
+        </div>
+        <div class="main-content">
+            <div class="main-content-header">
+                <h1 id="panel-title">Your Work</h1>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-info">Logout</button>
+                </form>
+            </div>
+            <ul class="file-list" id="file-list">
+                {% for file in user_uploaded_files %}
+                <li>
+                    <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 
-<h2>Upload File</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
-</form>
+    <script>
+        document.getElementById('your-work-btn').addEventListener('click', function() {
+            document.getElementById('panel-title').textContent = 'Your Work';
+            document.getElementById('file-list').innerHTML = '';
+            {% for file in user_uploaded_files %}
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.href = '{{ file.file.url }}';
+            a.target = '_blank';
+            a.textContent = '{{ file.file.name }}';
+            li.appendChild(a);
+            document.getElementById('file-list').appendChild(li);
+            {% endfor %}
+        });
 
-<h2>Your Uploaded Files</h2>
-<ul>
-    {% for file in user_uploaded_files %}
-        <li>
-            <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
-        </li>
-    {% endfor %}
-</ul>
-
-<h2>All Uploaded Files</h2>
-<ul>
-    {% for file in all_uploaded_files %}
-        <li>
-            <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a> - Uploaded by: {{ file.user.username }}
-        </li>
-    {% endfor %}
-</ul>
-
-<form action="{% url 'logout' %}" method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-info">Logout</button>
-</form>
+        document.getElementById('global-work-btn').addEventListener('click', function() {
+            document.getElementById('panel-title').textContent = 'Global Work';
+            document.getElementById('file-list').innerHTML = '';
+            {% for file in all_uploaded_files %}
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.href = '{{ file.file.url }}';
+            a.target = '_blank';
+            a.textContent = '{{ file.file.name }} - Uploaded by: {{ file.user.username }}';
+            li.appendChild(a);
+            document.getElementById('file-list').appendChild(li);
+            {% endfor %}
+        });
+    </script>
+</body>
+</html>
