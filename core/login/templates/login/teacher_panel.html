@@ -7,195 +7,221 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     body {
-      background-color: #f8f9fa;
-    }
+    background-color: #f8f9fa;
+}
 
-    .teacher-panel-container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 20px;
-      
-    }
+.teacher-panel-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
 
-    .teacher-panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    }
+.sidebar {
+    width: 200px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin-right: 20px;
+}
 
-    .teacher-panel-header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-      font-weight: 600;
-    }
+.sidebar-header {
+    margin-bottom: 20px;
+}
 
-    .file-list {
-      list-style-type: none;
-      padding: 0;
-    }
+.sidebar-menu ul {
+    list-style-type: none;
+    padding: 0;
+}
 
-    .file-list li {
-      background-color: #fff;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+.sidebar-menu li {
+    margin-bottom: 10px;
+}
 
-    .file-list li a {
-      color: #007bff;
-      text-decoration: none;
-    }
+.sidebar-menu a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+}
 
-    .file-list li a:hover {
-      color: #0056b3;
-    }
+.sidebar-menu a.active {
+    background-color: #007bff;
+    color: #fff;
+}
 
-    .file-list li span {
-      color: #6c757d;
-      font-size: 0.9rem;
-    }
+.main-content {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
 
-    .group-select-container {
-      margin-bottom: 30px;
-    }
+.teacher-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
 
-    .group-select-container label {
-      font-weight: 500;
-      margin-right: 10px;
-    }
+.teacher-panel-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 600;
+}
 
-    .frame {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      margin-bottom: 30px;
-    }
+.file-list {
+    list-style-type: none;
+    padding: 0;
+}
 
-    .group-settings-dropdown {
-      position: relative;
-      display: inline-block;
-    }
+.file-list li {
+    background-color: #f8f9fa;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    .group-settings-dropdown .btn {
-      font-size: 0.9rem;
-      padding: 0.25rem 0.5rem;
-    }
+.file-list li a {
+    color: #007bff;
+    text-decoration: none;
+}
 
-    .group-settings-dropdown .dropdown-menu {
-      position: absolute;
-      top: 100%;
-      right: 0;
-      z-index: 1000;
-      display: none;
-      float: left;
-      min-width: 10rem;
-      padding: 0.5rem 0;
-      margin: 0.125rem 0 0;
-      font-size: 1rem;
-      color: #212529;
-      text-align: left;
-      list-style: none;
-      background-color: #fff;
-      background-clip: padding-box;
-      border: 1px solid rgba(0, 0, 0, 0.15);
-      border-radius: 0.25rem;
-    }
+.file-list li a:hover {
+    color: #0056b3;
+}
 
-    .group-settings-dropdown:hover .dropdown-menu {
-      display: block;
-    }
+.file-list li span {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
 
-    .group-settings-dropdown .dropdown-menu a {
-      display: block;
-      padding: 0.25rem 1.5rem;
-      clear: both;
-      font-weight: 400;
-      color: #212529;
-      text-decoration: none;
-    }
+.classes {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+.group-link-vertical {
+    display: block;
+    padding: 10px 20px;
+    background-color: #17a2b8;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+    width: 200px; /* Adjust the width as needed */
+    height: 100px; /* Set the desired height for the vertical rectangle */
+    text-align: center;
+    line-height: 80px; /* Vertically center the text within the rectangle */
+    box-sizing: border-box;
+}
 
-    .group-settings-dropdown .dropdown-menu a:hover {
-      background-color: #f8f9fa;
-    }
-    .classes{
-        background-color: #fff;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    }
+.group-link-vertical:hover {
+    background-color: #138496;
+}
   </style>
 </head>
 <!-- login/teacher_panel.html -->
 <body>
     <div class="teacher-panel-container">
-      <div class="teacher-panel-header">
-        <h1>Teacher Panel</h1>
-        <form action="{% url 'logout' %}" method="post">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-info">Logout</button>
-        </form>
-        <a href="{% url 'create_group' %}" class="btn btn-success">Create Group</a>
-      </div>
-  
-      <div>
-        <div class = "classes">
-        <h2>All Classes</h2>
-        <ul>
-        {% for group in groups %}
-        <b>
-            
-            
-            <a href="{% url 'group_members' group.id %}" class="btn btn-info">{{ group.name }}</a>
-        </b>
-        {% endfor %}
-        </ul>
-        </div>  
-
-        <div class="classes">
-
-        
-        <form method="get">
-          <label for="group-select">Select a class:</label>
-          
-          <select id="group-select" name="group" class="form-control">
-            
-            {% for group in groups %}
-            
-            <option value="{{ group.id }}" {% if selected_group == group.id|stringformat:"i" %}selected{% endif %}>
-              {{ group.name }}
-            </option>
-            {% endfor %}
-          </select>
-          <button type="submit" class="btn btn-primary">View Files</button>
-        </form>
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3>Navigation</h3>
+            </div>
+            <div class="sidebar-menu">
+                <ul>
+                    <li><a href="#" class="active" onclick="toggleContent('groups')">Groups</a></li>
+                    <li><a href="#" onclick="toggleContent('files')">Files</a></li>
+                </ul>
+            </div>
         </div>
-      </div>
-  
-      <div>
-        <h2>Files Uploaded in the Selected Group</h2>
-        <ul class="file-list">
-          {% for file in group_uploaded_files %}
-          <li>
-            <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
-            <span>Uploaded by: {{ file.user.username }}</span>
-            <span>Uploaded to: {{ file.group.name }}</span>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
+        <div class="main-content">
+            <div class="teacher-panel-header">
+                <h1>Teacher Panel</h1>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-info">Logout</button>
+                </form>
+                <a href="{% url 'create_group' %}" class="btn btn-success">Create Group</a>
+            </div>
+            <div class="content-container">
+                <div class="classes" id="groups-content">
+                    <h2>All Classes</h2>
+                    <br>
+                    <ul>
+                        {% for group in groups %}
+                        <b>
+                            <a href="{% url 'group_members' group.id %}" class="group-link-vertical">{{ group.name }}</a>
+                        </b>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="classes" id="files-content" style="display: none;">
+                    <form method="get">
+                        <label for="group-select">Select a class:</label>
+                        <select id="group-select" name="group" class="form-control">
+                            {% for group in groups %}
+                            <option value="{{ group.id }}" {% if selected_group == group.id|stringformat:"i" %}selected{% endif %}>
+                                {{ group.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <button type="submit" class="btn btn-primary">View Files</button>
+
+                    </form>
+                    <br>
+                    <div id="uploaded-files-container" style="display: none;">
+                        <h2>Files Uploaded in the Selected Group</h2>
+                        <ul class="file-list">
+                            {% for file in group_uploaded_files %}
+                            <li>
+                                <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
+                                <span>Uploaded by: {{ file.user.username }}</span>
+                                <span>Uploaded to: {{ file.group.name }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </body>
+
+    <script>
+        function toggleContent(section) {
+            var groupsContent = document.getElementById('groups-content');
+            var filesContent = document.getElementById('files-content');
+            var uploadedFilesContainer = document.getElementById('uploaded-files-container');
+            var groupsLink = document.querySelector('.sidebar-menu a[onclick="toggleContent(\'groups\')"]');
+            var filesLink = document.querySelector('.sidebar-menu a[onclick="toggleContent(\'files\')"]');
+
+            if (section === 'groups') {
+                groupsContent.style.display = 'block';
+                filesContent.style.display = 'none';
+                uploadedFilesContainer.style.display = 'none';
+                groupsLink.classList.add('active');
+                filesLink.classList.remove('active');
+            } else if (section === 'files') {
+                groupsContent.style.display = 'none';
+                filesContent.style.display = 'block';
+                uploadedFilesContainer.style.display = 'block';
+                groupsLink.classList.remove('active');
+                filesLink.classList.add('active');
+            }
+        }
+    </script>
+</body>
 </html>
 
 
