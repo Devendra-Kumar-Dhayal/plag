@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from .forms import LoginForm
 from django.contrib.auth.decorators import login_required
 from .forms import UploadFileForm
-from .models import UploadedFile, Group, Profile
+from .models import UploadedFile, Group, Profile,User
 from .forms import GroupForm, AddStudentForm
 
 def home_view(request):
@@ -81,6 +81,18 @@ def add_student_to_group(request, group_id):
     else:
         form = AddStudentForm(group)
     return render(request, 'add_student_to_group.html', {'form': form, 'group': group})
+@login_required
+def remove_student_from_group(request, group_id, user_id):
+    group = get_object_or_404(Group, id=group_id, teacher=request.user)
+    student = get_object_or_404(User, id=user_id)
+    group.students.remove(student)
+    return redirect('group_members', group_id=group_id)
+
+@login_required
+def delete_group(request, group_id):
+    group = get_object_or_404(Group, id=group_id, teacher=request.user)
+    group.delete()
+    return redirect('teacher_panel')
 
 
 
@@ -110,6 +122,17 @@ def student_panel(request):
 
 @login_required
 def group_members(request, group_id):
-    group = Group.objects.get(id=group_id)
+    # group = Group.objects.get(id=group_id)
+    
+    group = get_object_or_404(Group, id=group_id)
     members = group.students.all()
-    return render(request, 'group_members.html', {'group': group, 'members': members})
+    print(f"Group : {group}")
+    if request.method == 'POST':
+        form = AddStudentForm(group, request.POST)
+        if form.is_valid():
+            student = form.cleaned_data['student']
+            group.students.add(student)
+            return redirect('teacher_panel')
+    else:
+        form = AddStudentForm(group)
+    return render(request, 'group_members.html', {'group': group, 'members': members, 'form':form})

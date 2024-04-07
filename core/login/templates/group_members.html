@@ -59,17 +59,41 @@
 </head>
 <body>
     
-    <h1>Members of {{ group.name }}   <button class="back-button" onclick="history.back()">Go Back</button></h1>
+    <h1>Members of {{ group.name }} 
+            
+          <button class="back-button" onclick="history.back()">Go Back</button>
+    </h1>
     <table>
+        <tr>
+            <td>
+            <div class="content">
+        
+        
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Add Student</button>
+                </form>
+            </div>
+            </td>
+
+        </tr>
         <tr>
             <th>Username</th>
         </tr>
         {% for member in members %}
         <tr>
-            <td>{{ member.username }}</td>
+            <td>
+                {{ member.username }}
+                <a href="{% url 'remove_student_from_group' group_id=group.id user_id=member.id %}" class="btn btn-danger btn-sm">Remove</a>
+            </td>
         </tr>
         {% endfor %}
+
     </table>
+
+    <a href="{% url 'delete_group' group_id=group.id  %}" class="btn btn-danger btn-sm">Delete Class</a>
+    
     
 </body>
 </html>
