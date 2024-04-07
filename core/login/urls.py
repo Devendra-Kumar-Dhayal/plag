@@ -18,5 +18,5 @@ urlpatterns = [
     path('remove-student-from-group/<int:group_id>/<int:user_id>/', remove_student_from_group, name='remove_student_from_group'),
     path('delete-group/<int:group_id>/', delete_group, name='delete_group'),
 ]
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
