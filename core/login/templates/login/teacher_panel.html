@@ -62,20 +62,32 @@
       <div>
         <h2>Groups</h2>
         <ul>
-          {% for group in groups %}
-          <li>
+        {% for group in groups %}
+        <li>
             {{ group.name }}
             <a href="{% url 'add_student_to_group' group.id %}" class="btn btn-primary">Add Student</a>
             <a href="{% url 'group_members' group.id %}" class="btn btn-info">View Members</a>
-          </li>
-          {% endfor %}
+        </li>
+        {% endfor %}
         </ul>
+        <form method="get">
+          <label for="group-select">Select a group:</label>
+          <select id="group-select" name="group" class="form-control">
+            <option value="">All Groups</option>
+            {% for group in groups %}
+            <option value="{{ group.id }}" {% if selected_group == group.id|stringformat:"i" %}selected{% endif %}>
+              {{ group.name }}
+            </option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-primary">View Files</button>
+        </form>
       </div>
   
       <div>
-        <h2>Files Uploaded in Your Groups</h2>
+        <h2>Files Uploaded in the Selected Group</h2>
         <ul class="file-list">
-          {% for file in all_uploaded_files %}
+          {% for file in group_uploaded_files %}
           <li>
             <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
             <span>Uploaded by: {{ file.user.username }}</span>
