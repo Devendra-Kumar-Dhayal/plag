@@ -70,16 +70,21 @@ def add_student_to_group(request, group_id):
 @login_required
 def student_panel(request):
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
+        form = UploadFileForm(request.user,request.POST, request.FILES)
         if form.is_valid():
-            uploaded_file = UploadedFile(user=request.user, file=request.FILES['file'])
+            uploaded_file = UploadedFile(
+                user=request.user,
+                file=request.FILES['file'],
+                group=form.cleaned_data['group']
+            )
             uploaded_file.save()
             return redirect('student_panel')
     else:
-        form = UploadFileForm()
+        form = UploadFileForm(request.user)
+        user_groups = request.user.student_groups.all()
+        user_uploaded_files = UploadedFile.objects.filter(user=request.user, group__in=user_groups)
+        all_uploaded_files = UploadedFile.objects.filter(group__in=user_groups)
 
-    user_uploaded_files = UploadedFile.objects.filter(user=request.user)
-    all_uploaded_files = UploadedFile.objects.all()
     return render(request, 'login/student_panel.html', {
         'form': form,
         'user_uploaded_files': user_uploaded_files,

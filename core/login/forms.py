@@ -20,5 +20,16 @@ class LoginForm(forms.Form):
 
 
 
+
+
 class UploadFileForm(forms.Form):
     file = forms.FileField(label='Select a file')
+    group = forms.ModelChoiceField(
+        queryset=None,
+        label='Select a group',
+        required=False
+    )
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['group'].queryset = user.student_groups.all()

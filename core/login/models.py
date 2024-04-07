@@ -15,5 +15,7 @@ class Group(models.Model):
 
 class UploadedFile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
     file = models.FileField(upload_to='uploaded_files/')
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True)
     
