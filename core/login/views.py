@@ -5,6 +5,23 @@ from django.contrib.auth.decorators import login_required
 from .forms import UploadFileForm
 from .models import UploadedFile, Group, Profile,User
 from .forms import GroupForm, AddStudentForm
+from .forms import RegistrationForm
+
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password1']
+            is_teacher = form.cleaned_data['is_teacher']
+            user = User.objects.create_user(username=username, email=email, password=password)
+            profile = Profile.objects.create(user=user, is_teacher=is_teacher)
+            return redirect('login')  # replace 'login' with the name of your login URL
+    else:
+        form = RegistrationForm()
+    return render(request, 'login/register.html', {'form': form})
 
 def home_view(request):
     return redirect('login')

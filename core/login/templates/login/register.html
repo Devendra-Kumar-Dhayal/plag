@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="login-container">
+        <div class="login-card">
+            <h2>Register</h2>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+

@@ -17,8 +17,9 @@
             </div>
             <div class="sidebar-menu">
                 <ul>
-                    <li><a href="#" class="active" onclick="toggleContent('groups')">Groups</a></li>
-                    <li><a href="#" onclick="toggleContent('files')">Files</a></li>
+                    <li><a href="#" class="active" onclick="toggleContent('files')">Files</a></li>
+                    <li><a href="#" onclick="toggleContent('groups')">Groups</a></li>
+                    
                 </ul>
             </div>
         </div>
@@ -32,7 +33,7 @@
                 
             </div>
             <div class="content-container">
-                <div class="classes" id="groups-content">
+                <div class="classes" id="groups-content" style="display: none;">
                     <div class="classes-header">
                         <h2>All Classes</h2>
                         <span><a href="{% url 'create_group' %}" class="btn btn-success">Create Group</a></span>
@@ -46,7 +47,7 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="classes" id="files-content" style="display: none;">
+                <div class="classes" id="files-content" >
                     <form method="get">
                         <label for="group-select">Select a class:</label>
                         <select id="group-select" name="group" class="form-control">
@@ -54,6 +55,7 @@
                             <option value="{{ group.id }}" {% if selected_group == group.id|stringformat:"i" %}selected{% endif %}>
                                 {{ group.name }}
                             </option>
+                            
                             {% endfor %}
                         </select>
                         <br>
@@ -61,7 +63,7 @@
 
                     </form>
                     <br>
-                    <div id="uploaded-files-container" style="display: none;">
+                    <div id="uploaded-files-container" ">
                         <h2>Files Uploaded in the Selected Group</h2>
                         <ul class="file-list">
                             {% for file in group_uploaded_files %}
@@ -69,6 +71,10 @@
                                 <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
                                 <span>Uploaded by: {{ file.user.username }}</span>
                                 <span>Uploaded to: {{ file.group.name }}</span>
+                            </li>
+                            {% empty %}
+                            <li>
+                                <p>Please Ask students to upload files</p>
                             </li>
                             {% endfor %}
                         </ul>
