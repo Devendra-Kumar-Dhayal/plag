@@ -47,40 +47,45 @@
         }
     </style>
 </head>
+<!-- login/teacher_panel.html -->
 <body>
     <div class="teacher-panel-container">
-        <div class="teacher-panel-header">
-            <h1>Teacher Panel</h1>
-            <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-info">Logout</button>
-            </form>
-            <a href="{% url 'create_group' %}" class="btn btn-success">Create Group</a>
-        </div>
-        <div>
-            <h2>Groups</h2>
-            <ul>
-                {% for group in groups %}
-                <li>
-                    {{ group.name }}
-                    <a href="{% url 'add_student_to_group' group.id %}" class="btn btn-primary">Add Student</a>
-                    <a href="{% url 'group_members' group.id %}" class="btn btn-info">View Members</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-        
-        <h2>All Uploaded Files</h2>
-        <ul class="file-list">
-            {% for file in all_uploaded_files %}
-            <li>
-                <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
-                <span>Uploaded by: {{ file.user.username }}</span>
-            </li>
-            {% endfor %}
+      <div class="teacher-panel-header">
+        <h1>Teacher Panel</h1>
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-info">Logout</button>
+        </form>
+        <a href="{% url 'create_group' %}" class="btn btn-success">Create Group</a>
+      </div>
+  
+      <div>
+        <h2>Groups</h2>
+        <ul>
+          {% for group in groups %}
+          <li>
+            {{ group.name }}
+            <a href="{% url 'add_student_to_group' group.id %}" class="btn btn-primary">Add Student</a>
+            <a href="{% url 'group_members' group.id %}" class="btn btn-info">View Members</a>
+          </li>
+          {% endfor %}
         </ul>
+      </div>
+  
+      <div>
+        <h2>Files Uploaded in Your Groups</h2>
+        <ul class="file-list">
+          {% for file in all_uploaded_files %}
+          <li>
+            <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
+            <span>Uploaded by: {{ file.user.username }}</span>
+            <span>Uploaded to: {{ file.group.name }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
-</body>
+  </body>
 </html>
 
 

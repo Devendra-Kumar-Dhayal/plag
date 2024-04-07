@@ -29,10 +29,16 @@ def login_view(request):
 
 
 
+# @login_required
+# def teacher_panel(request):
+#     all_uploaded_files = UploadedFile.objects.all()
+#     groups = Group.objects.filter(teacher=request.user)
+#     return render(request, 'login/teacher_panel.html', {'all_uploaded_files': all_uploaded_files, 'groups': groups})
+# views.py
 @login_required
 def teacher_panel(request):
-    all_uploaded_files = UploadedFile.objects.all()
     groups = Group.objects.filter(teacher=request.user)
+    all_uploaded_files = UploadedFile.objects.filter(group__in=groups)
     return render(request, 'login/teacher_panel.html', {'all_uploaded_files': all_uploaded_files, 'groups': groups})
 
 
