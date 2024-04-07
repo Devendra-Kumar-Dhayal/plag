@@ -67,20 +67,7 @@ def create_group(request):
         form = GroupForm()
     return render(request, 'create_group.html', {'form': form})
 
-@login_required
-def add_student_to_group(request, group_id):
-    print(f"Group ID: {group_id}")
-    group = get_object_or_404(Group, id=group_id)
-    print(f"Group : {group}")
-    if request.method == 'POST':
-        form = AddStudentForm(group, request.POST)
-        if form.is_valid():
-            student = form.cleaned_data['student']
-            group.students.add(student)
-            return redirect('teacher_panel')
-    else:
-        form = AddStudentForm(group)
-    return render(request, 'add_student_to_group.html', {'form': form, 'group': group})
+
 @login_required
 def remove_student_from_group(request, group_id, user_id):
     group = get_object_or_404(Group, id=group_id, teacher=request.user)
@@ -135,4 +122,4 @@ def group_members(request, group_id):
             return redirect('teacher_panel')
     else:
         form = AddStudentForm(group)
-    return render(request, 'group_members.html', {'group': group, 'members': members, 'form':form})
+    return render(request, 'login/group_members.html', {'group': group, 'members': members, 'form':form})

@@ -1,138 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teacher Panel</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-    body {
-    background-color: #f8f9fa;
-}
+{% extends 'base.html' %}
 
-.teacher-panel-container {
-    display: flex;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 20px;
-}
+{% load static %}
 
-.sidebar {
-    width: 200px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    margin-right: 20px;
-}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/studentpanel.css' %}">
+    <link rel="stylesheet" href="{% static 'css/teacherpanel.css' %}">
+    
+{% endblock %}
 
-.sidebar-header {
-    margin-bottom: 20px;
-}
-
-.sidebar-menu ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.sidebar-menu li {
-    margin-bottom: 10px;
-}
-
-.sidebar-menu a {
-    display: block;
-    padding: 10px;
-    color: #333;
-    text-decoration: none;
-    border-radius: 4px;
-}
-
-.sidebar-menu a.active {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.main-content {
-    flex: 1;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-}
-
-.teacher-panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.teacher-panel-header h1 {
-    margin: 0;
-    font-size: 2.5rem;
-    font-weight: 600;
-}
-
-.file-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-.file-list li {
-    background-color: #f8f9fa;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.file-list li a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.file-list li a:hover {
-    color: #0056b3;
-}
-
-.file-list li span {
-    color: #6c757d;
-    font-size: 0.9rem;
-}
-
-.classes {
-    background-color: #fff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-}
-.group-link-vertical {
-    display: block;
-    padding: 10px 20px;
-    background-color: #17a2b8;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-    margin-bottom: 10px;
-    width: 200px; /* Adjust the width as needed */
-    height: 100px; /* Set the desired height for the vertical rectangle */
-    text-align: center;
-    line-height: 80px; /* Vertically center the text within the rectangle */
-    box-sizing: border-box;
-}
-
-.group-link-vertical:hover {
-    background-color: #138496;
-}
-  </style>
-</head>
-<!-- login/teacher_panel.html -->
-<body>
+{% block content %}
     <div class="teacher-panel-container">
         <div class="sidebar">
             <div class="sidebar-header">
@@ -152,11 +29,14 @@
                     {% csrf_token %}
                     <button type="submit" class="btn btn-info">Logout</button>
                 </form>
-                <a href="{% url 'create_group' %}" class="btn btn-success">Create Group</a>
+                
             </div>
             <div class="content-container">
                 <div class="classes" id="groups-content">
-                    <h2>All Classes</h2>
+                    <div class="classes-header">
+                        <h2>All Classes</h2>
+                        <span><a href="{% url 'create_group' %}" class="btn btn-success">Create Group</a></span>
+                    </div>
                     <br>
                     <ul>
                         {% for group in groups %}
@@ -198,31 +78,12 @@
         </div>
     </div>
 
-    <script>
-        function toggleContent(section) {
-            var groupsContent = document.getElementById('groups-content');
-            var filesContent = document.getElementById('files-content');
-            var uploadedFilesContainer = document.getElementById('uploaded-files-container');
-            var groupsLink = document.querySelector('.sidebar-menu a[onclick="toggleContent(\'groups\')"]');
-            var filesLink = document.querySelector('.sidebar-menu a[onclick="toggleContent(\'files\')"]');
 
-            if (section === 'groups') {
-                groupsContent.style.display = 'block';
-                filesContent.style.display = 'none';
-                uploadedFilesContainer.style.display = 'none';
-                groupsLink.classList.add('active');
-                filesLink.classList.remove('active');
-            } else if (section === 'files') {
-                groupsContent.style.display = 'none';
-                filesContent.style.display = 'block';
-                uploadedFilesContainer.style.display = 'block';
-                groupsLink.classList.remove('active');
-                filesLink.classList.add('active');
-            }
-        }
-    </script>
-</body>
-</html>
+ {% endblock %}
+    
+ {% block extra_js %}
+     <script src="{% static 'js/teacher_panel.js' %}"></script>
+ {% endblock %}
 
 
 

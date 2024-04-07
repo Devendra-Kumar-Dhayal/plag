@@ -1,101 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Panel</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f2f2f2;
-        }
-        .student-panel-container {
-            display: flex;
-            height: 100vh;
-        }
-        .side-panel {
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            width: 200px;
-        }
-        .side-panel h3 {
-            margin-bottom: 20px;
-        }
-        button {
-            display: block;
+{% extends 'base.html' %}
 
-            margin-bottom: 10px;
-            background-color: #555;
-            border: none;
-            color: #fff;
-            padding: 10px;
-            text-align: left;
-            text-decoration: none;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #777;
-        }
-        .side-panel button {
-            display: block;
-            width: 100%;
-            margin-bottom: 10px;
-            background-color: #555;
-            border: none;
-            color: #fff;
-            padding: 10px;
-            text-align: left;
-            text-decoration: none;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .side-panel button:hover {
-            background-color: #777;
-        }
-        .main-content {
-            flex-grow: 1;
-            padding: 20px;
-        }
-        .main-content-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .main-content-header h1 {
-            margin: 0;
-        }
-        .file-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        .file-list li {
-            background-color: #fff;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .file-list li a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        .file-list li a:hover {
-            color: #0056b3;
-        }
-        .file-list li span {
-            color: #6c757d;
-        }
-    </style>
-</head>
-<body>
+{% load static %}
+
+{% block extra_css %}
+
+    <link rel="stylesheet" href="{% static 'css/studentpanel.css' %}">
+   
+    
+{% endblock %}
+{% block content %}
     <div class="student-panel-container">
         <div class="side-panel">
             <h3>Actions</h3>
@@ -161,5 +74,6 @@
             {% endfor %}
         });
     </script>
-</body>
-</html>
+        {% endblock %}
+    
+    

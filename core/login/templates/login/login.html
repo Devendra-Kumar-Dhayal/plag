@@ -1,44 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f2f2f2;
-        }
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .login-card {
-            width: 400px;
-            padding: 40px;
-            background-color: white;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        .login-card h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .login-card .form-group {
-            margin-bottom: 20px;
-        }
-        .login-card .form-control {
-            border-radius: 5px;
-        }
-        .login-card button {
-            width: 100%;
-            border-radius: 5px;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block content %}
     <div class="login-container">
         <div class="login-card">
             <h2>Login</h2>
@@ -54,5 +24,4 @@
             </form>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}
