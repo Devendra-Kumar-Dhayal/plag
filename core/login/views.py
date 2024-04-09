@@ -27,6 +27,7 @@ def home_view(request):
     return redirect('login')
 
 def login_view(request):
+    
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -41,6 +42,7 @@ def login_view(request):
                     return redirect('student_panel')
     else:
         form = LoginForm()
+
     return render(request, 'login/login.html', {'form': form})
 
 
