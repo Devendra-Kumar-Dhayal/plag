@@ -1,99 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Members</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: top;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
+{% extends 'base.html' %}
 
-        h1 {
-            color: #007bff;
-            margin-bottom: 20px;
-        }
+{% load static %}
 
-        table {
-            border-collapse: collapse;
-            width: 80%;
-            margin-bottom: 20px;
-        }
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/group_members.css' %}">
+{% endblock %}
 
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        .back-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .back-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-    
-    <h1>Members of {{ group.name }} 
-            
-          <button class="back-button" onclick="history.back()">Go Back</button>
+{% block content %}
+<div class="container">
+  <div class="content-wrapper">
+    <h1 class="animate__fadeInDown">Members of {{ group.name }}  
+        
+      <button class="back-button animate__fadeInDown animate__delay-1s" onclick="history.back()">Go Back</button>
     </h1>
-    <table>
-        <tr>
-            <td>
-            <div class="content">
-        
-        
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit">Add Student</button>
-                </form>
-            </div>
-            </td>
 
+    <div class="table-container animate__fadeInUp animate__delay-2s">
+      <table>
+        <tr>
+          <td>
+            <div class="content">
+              <form method="post" class="animate__fadeInUp animate__delay-3s">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn animate__fadeInUp animate__delay-4s">Add Student</button>
+              </form>
+            </div>
+          </td>
         </tr>
         <tr>
-            <th>Username</th>
+          <th class="animate__fadeInUp animate__delay-5s">Username</th>
+          <th class="animate__fadeInUp animate__delay-5s">Actions</th>
         </tr>
         {% for member in members %}
-        <tr>
-            <td>
-                {{ member.username }}
-                <a href="{% url 'remove_student_from_group' group_id=group.id user_id=member.id %}" class="btn btn-danger btn-sm">Remove</a>
-            </td>
+        <tr class="animate__fadeInUp animate__delay-6s">
+          <td>{{ member.username }}</td>
+          <td>
+            <a href="{% url 'remove_student_from_group' group_id=group.id user_id=member.id %}" class="btn btn-danger btn-sm animate__fadeInUp animate__delay-7s">Remove</a>
+          </td>
         </tr>
         {% endfor %}
+      </table>
+    </div>
 
-    </table>
+    <div class="button-container animate__fadeInUp animate__delay-8s">
+      <a href="{% url 'delete_group' group_id=group.id %}" class="btn btn-danger">Delete Class</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
 
-    <a href="{% url 'delete_group' group_id=group.id  %}" class="btn btn-danger btn-sm">Delete Class</a>
-    
-    
-</body>
-</html>
+{% block scripts %}
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.from('.animate__fadeInDown', {
+    duration: 1,
+    y: -50,
+    opacity: 0,
+    stagger: 0.3,
+    scrollTrigger: {
+      trigger: '.content-wrapper',
+      start: 'top 80%',
+    },
+  });
+
+  gsap.from('.animate__fadeInUp', {
+    duration: 1,
+    y: 50,
+    opacity: 0,
+    stagger: 0.3,
+    scrollTrigger: {
+      trigger: '.content-wrapper',
+      start: 'top 80%',
+    },
+  });
+</script>
+{% endblock %}

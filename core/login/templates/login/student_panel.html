@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% load static %}
 
 {% block extra_css %}
@@ -9,77 +10,115 @@
 
 {% block content %}
 <div class="teacher-panel-container">
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h3>Actions</h3>
-        </div>
-
-        <div class="sidebar-menu">
-            <ul>
-                <li><button id="your-work-btn">Your Work</button></li>
-                <li><button id="global-work-btn">Reports</button></li>
-            </ul>
-
-        </div>
+  <div class="sidebar animate__fadeInLeft">
+    <div class="sidebar-header">
+      <h3>Actions</h3>
     </div>
-    <div class="main-content">
-        <div class="teacher-panel-header">
-
-            <h1 id="panel-title">Your Work</h1>
-            <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-info">Logout</button>
-            </form>
-        </div>
-        
-        <ul class="file-list" id="file-list">
-            {% for file in user_uploaded_files %}
-            <li>
-                <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
-            </li>
-            {% endfor %}
-        </ul>
-        <div class="upload-section">
-            <h2>Upload Report</h2>
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Upload</button>
-            </form>
-        </div>
+    <div class="sidebar-menu">
+      <ul>
+        <li><button id="your-work-btn" class="animate__fadeInLeft animate__delay-1s">Your Work</button></li>
+        <li><button id="global-work-btn" class="animate__fadeInLeft animate__delay-2s">Reports</button></li>
+      </ul>
     </div>
+  </div>
+
+  <div class="main-content animate__fadeInRight">
+    <div class="teacher-panel-header">
+      <h1 id="panel-title" class="animate__fadeInRight animate__delay-1s">Your Work</h1>
+      <form action="{% url 'logout' %}" method="post" class="animate__fadeInRight animate__delay-2s">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-info">Logout</button>
+      </form>
+    </div>
+
+    <ul class="file-list animate__fadeInUp animate__delay-3s" id="file-list">
+      {% for file in user_uploaded_files %}
+      <li>
+        <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <div class="upload-section animate__fadeInUp animate__delay-4s">
+      <h2>Upload Report</h2>
+      <form method="post" enctype="multipart/form-data" class="animate__fadeInUp animate__delay-5s">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="animate__fadeInUp animate__delay-6s">Upload</button>
+      </form>
+    </div>
+  </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
 <script>
-    document.getElementById('your-work-btn').addEventListener('click', function () {
-        document.getElementById('panel-title').textContent = 'Your Work';
-        document.getElementById('file-list').innerHTML = '';
-        {% for file in user_uploaded_files %}
-        var li = document.createElement('li');
-        var a = document.createElement('a');
-        a.href = '{{ file.file.url }}';
-        a.target = '_blank';
-        a.textContent = '{{ file.file.name }}';
-        li.appendChild(a);
-        document.getElementById('file-list').appendChild(li);
-        {% endfor %}
-    });
+  gsap.registerPlugin(ScrollTrigger);
 
-    document.getElementById('global-work-btn').addEventListener('click', function () {
-        document.getElementById('panel-title').textContent = 'Reports';
-        document.getElementById('file-list').innerHTML = '';
-        {% for file in all_uploaded_files %}
-        var li = document.createElement('li');
-        var a = document.createElement('a');
-        a.href = '{{ file.file.url }}';
-        a.target = '_blank';
-        a.textContent = '{{ file.file.name }}';
-        var span = document.createElement('span');
-        span.textContent = 'Owner: {{ file.user.username }}';
-        li.appendChild(a);
-        li.appendChild(span);
-        document.getElementById('file-list').appendChild(li);
-        {% endfor %}
-    });
+  gsap.from('.animate__fadeInLeft', {
+    duration: 0.3,
+    x: -50,
+    opacity: 0,
+    stagger: 0.3,
+    scrollTrigger: {
+      trigger: '.teacher-panel-container',
+      start: 'top 80%',
+    },
+  });
+
+  gsap.from('.animate__fadeInRight', {
+    duration: 0.3,
+    x: 50,
+    opacity: 0,
+    stagger: 0.3,
+    scrollTrigger: {
+      trigger: '.teacher-panel-container',
+      start: 'top 80%',
+    },
+  });
+
+  gsap.from('.animate__fadeInUp', {
+    duration: 0.3,
+    y: 50,
+    opacity: 0,
+    stagger: 0.3,
+    scrollTrigger: {
+      trigger: '.main-content',
+      start: 'top 80%',
+    },
+  });
+</script>
+
+<script>
+  document.getElementById('your-work-btn').addEventListener('click', function () {
+    document.getElementById('panel-title').textContent = 'Your Work';
+    document.getElementById('file-list').innerHTML = '';
+    {% for file in user_uploaded_files %}
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '{{ file.file.url }}';
+      a.target = '_blank';
+      a.textContent = '{{ file.file.name }}';
+      li.appendChild(a);
+      document.getElementById('file-list').appendChild(li);
+    {% endfor %}
+  });
+
+  document.getElementById('global-work-btn').addEventListener('click', function () {
+    document.getElementById('panel-title').textContent = 'Reports';
+    document.getElementById('file-list').innerHTML = '';
+    {% for file in all_uploaded_files %}
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '{{ file.file.url }}';
+      a.target = '_blank';
+      a.textContent = '{{ file.file.name }}';
+      var span = document.createElement('span');
+      span.textContent = 'Owner: {{ file.user.username }}';
+      li.appendChild(a);
+      li.appendChild(span);
+      document.getElementById('file-list').appendChild(li);
+    {% endfor %}
+  });
 </script>
 {% endblock %}

@@ -5,23 +5,42 @@
 {% block title %}Login{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div class="login-container">
-        <div class="login-card">
-            <h2>Login</h2>
-            <form method="post">
-                {% csrf_token %}
-                {% for field in form %}
-                <div class="form-group">
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    {{ field }}
-                </div>
-                {% endfor %}
-                <button type="submit" class="btn btn-primary">Login</button>
-            </form>
-        </div>
-    </div>
+<div class="login-container">
+  <div class="login-card animate__fadeInUp">
+    <h2 class="animate__fadeInUp animate__delay-1s">Login</h2>
+    <form method="post" class="animate__fadeInUp animate__delay-2s">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group animate__fadeInUp animate__delay-3s">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+      </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary animate__fadeInUp animate__delay-4s">Login</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.from('.animate__fadeInUp', {
+    duration: 1,
+    y: 50,
+    opacity: 0,
+    stagger: 0.3,
+    scrollTrigger: {
+      trigger: '.login-container',
+      start: 'top 80%',
+    },
+  });
+</script>
 {% endblock %}

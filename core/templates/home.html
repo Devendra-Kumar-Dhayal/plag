@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="animate__fadeInUp">Student Project Portal</h1>
+      <p class="animate__fadeInUp animate__delay-1s">Submit your projects and manage class groups</p>
+      <div class="buttons animate__fadeInUp animate__delay-2s">
+        <a href="/login" class="btn btn-primary">Login</a>
+        <a href="/register" class="btn btn-secondary">Register</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2 class="animate__fadeInUp">Features</h2>
+    <ul>
+      <li class="animate__fadeInLeft animate__delay-1s">
+        <h3>Project Submission</h3>
+        <p>Students can easily submit their project files and track their progress.</p>
+      </li>
+      <li class="animate__fadeInRight animate__delay-2s">
+        <h3>Class Management</h3>
+        <p>Teachers can create and manage class groups, assign projects, and provide feedback.</p>
+      </li>
+      <li class="animate__fadeInLeft animate__delay-3s">
+        <h3>Collaboration</h3>
+        <p>Students can collaborate with their peers and share ideas and resources.</p>
+      </li>
+    </ul>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from('.animate__fadeInUp', {
+      duration: 1,
+      y: 50,
+      opacity: 0,
+      stagger: 0.3,
+      scrollTrigger: {
+        trigger: '.hero',
+        start: 'top 80%',
+      },
+    });
+
+    gsap.from('.animate__fadeInLeft', {
+      duration: 1,
+      x: -50,
+      opacity: 0,
+      stagger: 0.3,
+      scrollTrigger: {
+        trigger: '.features',
+        start: 'top 80%',
+      },
+    });
+
+    gsap.from('.animate__fadeInRight', {
+      duration: 1,
+      x: 50,
+      opacity: 0,
+      stagger: 0.3,
+      scrollTrigger: {
+        trigger: '.features',
+        start: 'top 80%',
+      },
+    });
+  </script>
+{% endblock %}

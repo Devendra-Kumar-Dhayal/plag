@@ -1,0 +1,76 @@
+
+/* group_members.css */
+.container {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 82vh;
+
+}
+
+.content-wrapper {
+max-width: 1000px;
+margin: 0 auto;
+padding: 20px;
+}
+  
+
+
+h1 {
+color: #333;
+margin-bottom: 20px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.back-button {
+background-color: #6c757d;
+color: #fff;
+border: none;
+border-radius: 4px;
+padding: 8px 16px;
+cursor: pointer;
+align-self: right;
+transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+background-color: #5a6268;
+}
+
+.table-container {
+background-color: #fff;
+border-radius: 8px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+overflow: hidden;
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+}
+
+th, td {
+padding: 12px;
+text-align: left;
+}
+
+th {
+background-color: #f2f2f2;
+color: #333;
+}
+
+tr:nth-child(even) {
+background-color: #f8f9fa;
+}
+
+.content {
+padding: 20px;
+}
+
+.button-container {
+margin-top: 20px;
+text-align: center;
+}
+

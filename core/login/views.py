@@ -24,7 +24,7 @@ def register(request):
     return render(request, 'login/register.html', {'form': form})
 
 def home_view(request):
-    return redirect('login')
+    return render(request,'home.html')
 
 def login_view(request):
     

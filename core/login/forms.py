@@ -16,6 +16,7 @@ class AddStudentForm(forms.Form):
 
 class LoginForm(forms.Form):
     email = forms.EmailField()
+
     password = forms.CharField(widget=forms.PasswordInput)
 
 class UploadFileForm(forms.Form):
@@ -33,10 +34,13 @@ class UploadFileForm(forms.Form):
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(label='Username', max_length=50)
+    number = forms.IntegerField(label= 'Registration Number')
     email = forms.EmailField(label='Email')
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
     is_teacher = forms.BooleanField(label='Are you a teacher?', required=False)
+
+
 
     def clean_username(self):
         username = self.cleaned_data['username']

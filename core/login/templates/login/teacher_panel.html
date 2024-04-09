@@ -3,95 +3,124 @@
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'css/studentpanel.css' %}">
-    <link rel="stylesheet" href="{% static 'css/teacherpanel.css' %}">
-    
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/studentpanel.css' %}">
+<link rel="stylesheet" href="{% static 'css/teacherpanel.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div class="teacher-panel-container">
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <h3>Navigation</h3>
-            </div>
-            <div class="sidebar-menu">
-                <ul>
-                    <li><a href="#" class="active" onclick="toggleContent('files')">Files</a></li>
-                    <li><a href="#" onclick="toggleContent('groups')">Groups</a></li>
-                    
-                </ul>
-            </div>
-        </div>
-        <div class="main-content">
-            <div class="teacher-panel-header">
-                <h1>Teacher Panel</h1>
-                <form action="{% url 'logout' %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-info">Logout</button>
-                </form>
-                
-            </div>
-            <div class="content-container">
-                <div class="classes" id="groups-content" style="display: none;">
-                    <div class="classes-header">
-                        <h2>All Classes</h2>
-                        <span><a href="{% url 'create_group' %}" class="btn btn-success">Create Group</a></span>
-                    </div>
-                    <br>
-                    <ul>
-                        {% for group in groups %}
-                        <b>
-                            <a href="{% url 'group_members' group.id %}" class="group-link-vertical">{{ group.name }}</a>
-                        </b>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="classes" id="files-content" >
-                    <form method="get">
-                        <label for="group-select">Select a class:</label>
-                        <select id="group-select" name="group" class="form-control">
-                            {% for group in groups %}
-                            <option value="{{ group.id }}" {% if selected_group == group.id|stringformat:"i" %}selected{% endif %}>
-                                {{ group.name }}
-                            </option>
-                            
-                            {% endfor %}
-                        </select>
-                        <br>
-                        <button type="submit" class="btn btn-primary">View Files</button>
+<div class="teacher-panel-container">
+  <div class="sidebar animate__fadeInLeft">
+    <div class="sidebar-header">
+      <h3>Navigation</h3>
+    </div>
+    <div class="sidebar-menu">
+      <ul>
+        <li><a href="#" class="active animate__fadeInLeft animate__delay-1s" onclick="toggleContent('files')">Files</a></li>
+        <li><a href="#" class="animate__fadeInLeft animate__delay-2s" onclick="toggleContent('groups')">Groups</a></li>
+      </ul>
+    </div>
+  </div>
 
-                    </form>
-                    <br>
-                    <div id="uploaded-files-container" ">
-                        <h2>Files Uploaded in the Selected Group</h2>
-                        <ul class="file-list">
-                            {% for file in group_uploaded_files %}
-                            <li>
-                                <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
-                                <span>Uploaded by: {{ file.user.username }}</span>
-                                <span>Uploaded to: {{ file.group.name }}</span>
-                            </li>
-                            {% empty %}
-                            <li>
-                                <p>Please Ask students to upload files</p>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="main-content animate__fadeInRight">
+    <div class="teacher-panel-header">
+      <h1 class="animate__fadeInRight animate__delay-1s">Teacher Panel</h1>
+      <form action="{% url 'logout' %}" method="post" class="animate__fadeInRight animate__delay-2s">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-info">Logout</button>
+      </form>
     </div>
 
+    <div class="content-container">
+      <div class="classes" id="groups-content" style="display: none;">
+        <div class="classes-header animate__fadeInUp animate__delay-1s">
+          <h2>All Classes</h2>
+          <span><a href="{% url 'create_group' %}" class="btn btn-success animate__fadeInUp animate__delay-2s">Create Group</a></span>
+        </div>
+        <br>
+        <ul>
+          {% for group in groups %}
+          <b>
+            <a href="{% url 'group_members' group.id %}" class="group-link-vertical animate__fadeInUp animate__delay-3s">{{ group.name }}</a>
+          </b>
+          {% endfor %}
+        </ul>
+      </div>
 
- {% endblock %}
-    
- {% block extra_js %}
-     <script src="{% static 'js/teacher_panel.js' %}"></script>
- {% endblock %}
+      <div class="classes" id="files-content">
+        <form method="get" class="animate__fadeInUp animate__delay-1s">
+          <label for="group-select">Select a class:</label>
+          <select id="group-select" name="group" class="form-control animate__fadeInUp animate__delay-2s">
+            {% for group in groups %}
+            <option value="{{ group.id }}" {% if selected_group == group.id|stringformat:"i" %}selected{% endif %}>
+              {{ group.name }}
+            </option>
+            {% endfor %}
+          </select>
+          <br>
+          <button type="submit" class="btn btn-primary animate__fadeInUp animate__delay-3s">View Files</button>
+        </form>
+        <br>
+        <div id="uploaded-files-container">
+          <h2 class="animate__fadeInUp animate__delay-1s">Files Uploaded in the Selected Group</h2>
+          <ul class="file-list animate__fadeInUp animate__delay-2s">
+            {% for file in group_uploaded_files %}
+            <li>
+              <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
+              <span>Uploaded by: {{ file.user.username }}</span>
+              <span>Uploaded to: {{ file.group.name }}</span>
+            </li>
+            {% empty %}
+            <li>
+              <p>Please Ask students to upload files</p>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
 
+{% block extra_js %}
+<script src="{% static 'js/teacher_panel.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
 
+  gsap.from('.animate__fadeInLeft', {
+    duration: 0.3,
+    x: -50,
+    opacity: 0,
+    stagger: 0.3,
+    scrollTrigger: {
+      trigger: '.teacher-panel-container',
+      start: 'top 80%',
+    },
+  });
 
+  gsap.from('.animate__fadeInRight', {
+    duration: 0.3,
+    x: 50,
+    opacity: 0,
+    stagger: 0.3,
+    scrollTrigger: {
+      trigger: '.teacher-panel-container',
+      start: 'top 80%',
+    },
+  });
 
-
+  gsap.from('.animate__fadeInUp', {
+    duration: 0.00,
+    y: 30,
+    opacity: 0,
+    stagger: 0.3,
+    scrollTrigger: {
+      trigger: '.content-container',
+      start: 'top 80%',
+    },
+  });
+</script>
+{% endblock %}
