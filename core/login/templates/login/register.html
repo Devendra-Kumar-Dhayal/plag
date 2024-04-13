@@ -6,6 +6,7 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/css/widgets.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -20,9 +21,34 @@
                     {{ field }}
                 </div>
                 {% endfor %}
+                {% if form.errors %}
+                <div class="alert-danger">
+                    {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <p>{{ field }}: {{ error }}</p>
+                    {% endfor %}
+                    {% endfor %}
+                </div>
+                {% endif %}
                 <button type="submit" class="btn btn-primary">Register</button>
             </form>
         </div>
     </div>
 {% endblock %}
+{% block extra_js %}
+
+<script src="{% static 'admin/js/core.js' %}"></script>
+<script src="{% static 'admin/js/calendar.js' %}"></script>
+<script src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var dobInput = document.getElementById('id_dob');
+    if (dobInput) {
+        dobInput.type = 'date';
+    }
+});
+</script>
+{% endblock %}
+
+
 

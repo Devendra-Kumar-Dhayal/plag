@@ -5,7 +5,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 80vh;
 }
 .login-card {
     width: 400px;
@@ -27,4 +27,8 @@ body {
 .login-card button {
     width: 100%;
     border-radius: 5px;
+}
+.alert-danger{
+    color: red;
+
 }

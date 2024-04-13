@@ -13,4 +13,4 @@ admin.site.register(UploadedFile)
 admin.site.site_title = "Report Manager"
 
 # Change the site header
-admin.site.site_header = "Admin Panel"
+admin.site.site_header = "Coordinator"

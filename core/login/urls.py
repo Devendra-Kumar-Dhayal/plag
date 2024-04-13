@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views import login_view, teacher_panel, student_panel,home_view,create_group,group_members,remove_student_from_group, delete_group,register
+from .views import *
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
@@ -20,7 +20,9 @@ urlpatterns = [
 
     # api 
     path('delete-group/<int:group_id>/', delete_group, name='delete_group'),
-    path('register/', register, name='register'),
+    path('register', register, name='register'),
+    # path('verify-email/', verify_email, name='verify_email'),
+    path('verify-otp/', verify_otp, name='verify_otp'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

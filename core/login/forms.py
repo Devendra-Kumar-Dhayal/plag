@@ -1,5 +1,8 @@
 from django import forms
 from .models import Group, User
+import re
+from django.contrib.admin.widgets import AdminDateWidget
+# from bootstrap_datepicker_plus import DatePickerInput
 
 class GroupForm(forms.ModelForm):
     class Meta:
@@ -15,7 +18,7 @@ class AddStudentForm(forms.Form):
         self.fields['student'].queryset = User.objects.filter(profile__is_teacher=False).exclude(groups__in=[group.id])
 
 class LoginForm(forms.Form):
-    email = forms.EmailField()
+    regNo = forms.CharField(label='Registration Number', max_length=50)
 
     password = forms.CharField(widget=forms.PasswordInput)
 
@@ -33,14 +36,34 @@ class UploadFileForm(forms.Form):
 
 
 class RegistrationForm(forms.Form):
-    username = forms.CharField(label='Username', max_length=50)
-    number = forms.IntegerField(label= 'Registration Number')
-    email = forms.EmailField(label='Email')
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+
+    name = forms.CharField(label='Name', max_length=50, required=True)
+    dob = forms.DateField(label='DOB' , required=True ,widget=AdminDateWidget())
+    username = forms.CharField(label='Registration Number', max_length=50, required=True)
+    
+    email = forms.EmailField(label='Email', required=True)
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput , required=True)
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput ,required=True)
     is_teacher = forms.BooleanField(label='Are you a teacher?', required=False)
-
-
+    @staticmethod
+    def validate_email(email):
+        """
+        Validates the given email address.
+        
+        Args:
+            email (str): The email address to be validated.
+            
+        Returns:
+            bool: True if the email is valid, False otherwise.
+        """
+        # Regular expression pattern to match valid email addresses
+        pattern = r'^[\w\.-]+@muj.manipal.edu'
+        
+        # Check if the email matches the pattern
+        if re.match(pattern, email):
+            return True
+        else:
+            return False
 
     def clean_username(self):
         username = self.cleaned_data['username']
@@ -50,6 +73,9 @@ class RegistrationForm(forms.Form):
 
     def clean_email(self):
         email = self.cleaned_data['email']
+        if not RegistrationForm.validate_email(email):
+            raise forms.ValidationError("Use Manipal Email")
+
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("Email already exists.")
         return email

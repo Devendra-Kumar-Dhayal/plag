@@ -2,9 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Profile(models.Model):
+    name = models.CharField(max_length=100)
+    dob = models.DateField(blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    number = models.IntegerField(default=000000000)
+ 
     is_teacher = models.BooleanField(default=False)
+
+    otp_token = models.CharField(max_length=6, null=True, blank=True)
+    otp_token_expiry = models.DateTimeField(null=True, blank=True)
     def __str__(self):
         return self.user.username
 

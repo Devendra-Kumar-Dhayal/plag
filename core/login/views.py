@@ -1,11 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
-from .forms import LoginForm
 from django.contrib.auth.decorators import login_required
-from .forms import UploadFileForm
-from .models import UploadedFile, Group, Profile,User
-from .forms import GroupForm, AddStudentForm
-from .forms import RegistrationForm
+from .models import *
+from .forms import *
+from django.contrib.auth.models import User
+from django.contrib import messages
+
+from .tokens import *
+
+
+
+
 
 
 def register(request):
@@ -16,12 +21,45 @@ def register(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password1']
             is_teacher = form.cleaned_data['is_teacher']
-            user = User.objects.create_user(username=username, email=email, password=password)
-            profile = Profile.objects.create(user=user, is_teacher=is_teacher)
-            return redirect('login')  # replace 'login' with the name of your login URL
+            dob = form.cleaned_data['dob']
+            name = form.cleaned_data['name']
+
+            try:
+                user = User.objects.get(email=email)
+                messages.error(request, 'Email already registered.')
+                return render(request, 'login/register.html', {'form': form})
+            except User.DoesNotExist:
+                user = User.objects.create_user(username=username, email=email, password=password)
+                user.is_active = False
+                user.save()
+                profile = Profile.objects.create(user=user, is_teacher=is_teacher , dob = dob , name= name)
+                token = TokenGenerator()
+                token.send_verification_email(user)
+                request.session['user_id'] = user.id
+                return redirect('verify_otp')
     else:
         form = RegistrationForm()
+
     return render(request, 'login/register.html', {'form': form})
+
+def verify_otp(request):
+    if request.method == 'POST':
+        otp = request.POST['otp']
+        user_id = request.session.get('user_id')
+        try:
+            user = User.objects.get(id=user_id)
+            token = TokenGenerator()
+            if token.verify_token(user, otp):
+                user.is_active = True
+                user.save()
+                
+                messages.success(request, 'Registration successful! Please log in.')
+                return redirect('login')
+            else:
+                messages.error(request, 'Invalid OTP.')
+        except User.DoesNotExist:
+            messages.error(request, 'User not found.')
+    return render(request, 'login/verify_otp.html')
 
 def home_view(request):
     return render(request,'home.html')
@@ -31,12 +69,18 @@ def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email']
+            regNo = form.cleaned_data['regNo']
             password = form.cleaned_data['password']
-            user = authenticate(request, username=email, password=password)
+            user = authenticate(request, username=regNo, password=password)
             if user is not None:
                 login(request, user)
-                if user.profile.is_teacher:
+                if user.is_active ==False: 
+                    token = TokenGenerator()
+                    token.send_verification_email(user)
+                    request.session['user_id'] = user.id
+                    return redirect('verify_otp')
+
+                elif user.profile.is_teacher:
                     return redirect('teacher_panel')
                 else:
                     return redirect('student_panel')
