@@ -5,13 +5,7 @@ from .models import *
 from .forms import *
 from django.contrib.auth.models import User
 from django.contrib import messages
-
 from .tokens import *
-
-
-
-
-
 
 def register(request):
     if request.method == 'POST':
@@ -32,7 +26,7 @@ def register(request):
                 user = User.objects.create_user(username=username, email=email, password=password)
                 user.is_active = False
                 user.save()
-                profile = Profile.objects.create(user=user, is_teacher=is_teacher , dob = dob , name= name)
+                profile = Profile.objects.create(user=user, is_teacher=is_teacher  , name= name, dob = dob)
                 token = TokenGenerator()
                 token.send_verification_email(user)
                 request.session['user_id'] = user.id
@@ -62,7 +56,14 @@ def verify_otp(request):
     return render(request, 'login/verify_otp.html')
 
 def home_view(request):
-    return render(request,'home.html')
+    
+    try :
+        user_id = request.session.get('user_id')
+        user = User.objects.get(id=user_id)
+    except:
+        user = {"name": ""}
+
+    return render(request,'home.html', {'user':user})
 
 def login_view(request):
     
@@ -72,12 +73,12 @@ def login_view(request):
             regNo = form.cleaned_data['regNo']
             password = form.cleaned_data['password']
             user = authenticate(request, username=regNo, password=password)
+            request.session['user_id'] = user.id
             if user is not None:
                 login(request, user)
                 if user.is_active ==False: 
                     token = TokenGenerator()
                     token.send_verification_email(user)
-                    request.session['user_id'] = user.id
                     return redirect('verify_otp')
 
                 elif user.profile.is_teacher:
@@ -89,18 +90,12 @@ def login_view(request):
 
     return render(request, 'login/login.html', {'form': form})
 
-
-
-
-# @login_required
-# def teacher_panel(request):
-#     all_uploaded_files = UploadedFile.objects.all()
-#     groups = Group.objects.filter(teacher=request.user)
-#     return render(request, 'login/teacher_panel.html', {'all_uploaded_files': all_uploaded_files, 'groups': groups})
-# views.py
 @login_required
 def teacher_panel(request):
     groups = Group.objects.filter(teacher=request.user)
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+
 
     selected_group = request.GET.get('group')
     if selected_group:
@@ -112,7 +107,8 @@ def teacher_panel(request):
     return render(request, 'login/teacher_panel.html', {
         'groups': groups,
         'group_uploaded_files': group_uploaded_files,
-        'selected_group': selected_group
+        'selected_group': selected_group,
+        'user': user,
     })
 
 
@@ -148,6 +144,7 @@ def delete_group(request, group_id):
 
 @login_required
 def student_panel(request):
+
     if request.method == 'POST':
         form = UploadFileForm(request.user,request.POST, request.FILES)
         if form.is_valid():
@@ -159,6 +156,8 @@ def student_panel(request):
             uploaded_file.save()
             return redirect('student_panel')
     else:
+        user_id = request.session.get('user_id')
+        user = User.objects.get(id=user_id)
         form = UploadFileForm(request.user)
         user_groups = request.user.student_groups.all()
         user_uploaded_files = UploadedFile.objects.filter(user=request.user, group__in=user_groups)
@@ -167,7 +166,8 @@ def student_panel(request):
     return render(request, 'login/student_panel.html', {
         'form': form,
         'user_uploaded_files': user_uploaded_files,
-        'all_uploaded_files': all_uploaded_files
+        'all_uploaded_files': all_uploaded_files,
+        'user': user,
     })
 
 @login_required

@@ -4,12 +4,29 @@
 {% block content %}
   <section class="hero">
     <div class="hero-content">
-      <h1 class="animate__fadeInUp">Student Project Portal</h1>
+      
+      {% if user.is_authenticated %}
+                
+            {% if user.profile.is_teacher%}
+            <h1 class="animate__fadeInUp">Teacher Project Portal</h1>
+            <div class="buttons animate__fadeInUp animate__delay-2s">
+              <a href="/teacher-panel/" class="btn btn-primary" ><p>Go To User Panel</p></a>
+            </div>
+              
+            {% else %}
+            <h1 class="animate__fadeInUp">Student Project Portal</h1>
+            <div class="buttons animate__fadeInUp animate__delay-2s">
+              <a href="/student-panel/" class="btn btn-primary" ><p>Go To User Panel</p></a>
+            </div>
+            {% endif %}
+      {% else %}
       <p class="animate__fadeInUp animate__delay-1s">Submit your projects and manage class groups</p>
       <div class="buttons animate__fadeInUp animate__delay-2s">
-        <a href="/login" class="btn btn-primary">Login</a>
-        <a href="/register" class="btn btn-secondary">Register</a>
+        <a href="/login/" class="btn btn-primary">Login</a>
+        <a href="/register/" class="btn btn-secondary">Register</a>
       </div>
+      {% endif %}
+      
     </div>
   </section>
 

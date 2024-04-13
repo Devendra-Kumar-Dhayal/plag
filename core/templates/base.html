@@ -12,8 +12,18 @@
     <header>
         <a href="/"><img class="resized-image" style="max-width: 20vh;
         max-height: 8vh;
-        object-fit: contain;" src="{% static 'logo/manipalLogo.jpeg' %}" alt="My Logo">
+        object-fit: contain;
+       
+        margin-right: 20px;
+        float: left;" src="{% static 'logo/manipalLogo.jpeg' %}" alt="My Logo">
         </a>
+        {% if user.is_authenticated %}
+            <span style="overflow: auto; " class="name"><h4>Welcome, {{ user.profile.name }}</h4></span>
+            <span style="overflow: auto; " class="name"><h4>Registration No. {{ user.username }}</h4></span>
+            
+        {% else %}
+            
+        {% endif %}
         <!-- Common header markup -->
     </header>
 

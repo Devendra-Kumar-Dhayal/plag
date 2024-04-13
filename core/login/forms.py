@@ -26,7 +26,7 @@ class UploadFileForm(forms.Form):
     file = forms.FileField(label='Select a file',required=True)
     group = forms.ModelChoiceField(
         queryset=None,
-        label='Select a group',
+        label='Select a class',
         required=True
     )
 
