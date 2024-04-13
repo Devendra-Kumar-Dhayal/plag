@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-  <section class="hero">
+  <section class="hero" >
     <div class="hero-content">
       
       {% if user.is_authenticated %}
@@ -20,18 +20,21 @@
             </div>
             {% endif %}
       {% else %}
-      <p class="animate__fadeInUp animate__delay-1s">Submit your projects and manage class groups</p>
+      <div class="button-panel">
+        <p class="animate__fadeInUp animate__delay-1s">Submit your projects and manage class groups</p>
       <div class="buttons animate__fadeInUp animate__delay-2s">
         <a href="/login/" class="btn btn-primary">Login</a>
         <a href="/register/" class="btn btn-secondary">Register</a>
       </div>
+      </div>
+      
       {% endif %}
       
     </div>
   </section>
 
   <section class="features">
-    <h2 class="animate__fadeInUp">Features</h2>
+    <h1 class="animate__fadeInUp">Features</h1>
     <ul>
       <li class="animate__fadeInLeft animate__delay-1s">
         <h3>Project Submission</h3>

@@ -8,7 +8,11 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
-<body>
+<body style='background-image: url("/static/logo/background.webp");
+background-repeat: no-repeat;
+background-size: cover;
+background-position: center;
+background-attachment: fixed;'>
     <header>
         <a href="/"><img class="resized-image" style="max-width: 20vh;
         max-height: 8vh;
@@ -22,6 +26,7 @@
             <span style="overflow: auto; " class="name"><h4>Registration No. {{ user.username }}</h4></span>
             
         {% else %}
+            <span style="overflow: auto; " class="name"><h4>Welcome to Manipal University Jaipur</h4></span>
             
         {% endif %}
         <!-- Common header markup -->
